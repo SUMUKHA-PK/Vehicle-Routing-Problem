@@ -26,73 +26,96 @@ if(ch=='n'):
         ch = input('Do you want to enter more edges?: ')
 
 else:
-    addEdge(city,'d','a',8) 
-    addEdge(city,'a','b',9)
-    addEdge(city,'a','d',8) 
-    addEdge(city,'b','c',0) 
-    addEdge(city,'b','a',9) 
-    addEdge(city,'c','d',3) 
-    addEdge(city,'c','b',0)  
-    addEdge(city,'d','c',3) 
+    # addEdge(city,'d','a',8) 
+    # addEdge(city,'a','b',9)
+    # addEdge(city,'a','d',8) 
+    # addEdge(city,'b','c',0) 
+    # addEdge(city,'b','a',9) 
+    # addEdge(city,'c','d',3) 
+    # addEdge(city,'c','b',0)  
+    # addEdge(city,'d','c',3) 
     ###
-    # addEdge(city,'a','c',3)
-    # addEdge(city,'a','g',1)
-    # addEdge(city,'a','d',0)
-    # addEdge(city,'c','a',3)
-    # addEdge(city,'c','x',5)
-    # addEdge(city,'x','c',5)
-    # addEdge(city,'x','p',8)
-    # addEdge(city,'x','l',5)
-    # addEdge(city,'l','x',5)
-    # addEdge(city,'l','e',7)
-    # addEdge(city,'p','x',8)
-    # addEdge(city,'p','f',1)
-    # addEdge(city,'p','e',0)
-    # addEdge(city,'f','p',1)
-    # addEdge(city,'f','d',3)
-    # addEdge(city,'f','b',6)
-    # addEdge(city,'d','f',3)
-    # addEdge(city,'d','a',0)
-    # addEdge(city,'d','g',7)
-    # addEdge(city,'g','d',7)
-    # addEdge(city,'g','a',1)
-    # addEdge(city,'g','b',0)
-    # addEdge(city,'b','g',0)
-    # addEdge(city,'b','f',6)
-    # addEdge(city,'b','e',6)
-    # addEdge(city,'e','p',0)
-    # addEdge(city,'e','b',6)
-    # addEdge(city,'e','l',7)
 
-paths= ["a"]
-penalty = [0]
+    # Graph for beloew
+    #     c-----3-----a----------1
+    #    /             \          \
+    #   5               0          \
+    #  /                 \          \
+    # x                   d-----7----g
+    # |\                 /           / 
+    # | 8               3           0
+    # |  \             /           /
+    # 5   p-----1-----f-----6-----b
+    # |    \                     / 
+    # |     \                   / 
+    # |      \                 / 
+    # |       \               /
+    # |        0             6
+    # |         \           / 
+    # |          \         / 
+    # |          \       /
+    # |            \     /
+    # |             \   /
+    # l-------7-------e
 
-def find_all_paths(city,paths):
-    temp_paths = paths[:]
-    for i in range(len(temp_paths)):
-        l = len(temp_paths[i])
-        node = temp_paths[i][l-1]
-        flag=0
-        for neighbour in city[node]:
-            if neighbour not in temp_paths[i]:
-                if(flag==0):
-                    x = temp_paths[i]
-                    x+=neighbour
-                    temp_paths[i]=x
-                    flag=1
-                    penalty[i]+=cost[node][city[node].index(neighbour)]
-                else:
-                    x = paths[i]
-                    x+=neighbour
-                    temp_paths.append(x)
-                    penalty.append(cost[node][city[node].index(neighbour)])
-    paths = temp_paths[:]
-    return paths
+    addEdge(city,'a','c',3)
+    addEdge(city,'a','g',1)
+    addEdge(city,'a','d',0)
+    addEdge(city,'c','a',3)
+    addEdge(city,'c','x',5)
+    addEdge(city,'x','c',5)
+    addEdge(city,'x','p',8)
+    addEdge(city,'x','l',5)
+    addEdge(city,'l','x',5)
+    addEdge(city,'l','e',7)
+    addEdge(city,'p','x',8)
+    addEdge(city,'p','f',1)
+    addEdge(city,'p','e',0)
+    addEdge(city,'f','p',1)
+    addEdge(city,'f','d',3)
+    addEdge(city,'f','b',6)
+    addEdge(city,'d','f',3)
+    addEdge(city,'d','a',0)
+    addEdge(city,'d','g',7)
+    addEdge(city,'g','d',7)
+    addEdge(city,'g','a',1)
+    addEdge(city,'g','b',0)
+    addEdge(city,'b','g',0)
+    addEdge(city,'b','f',6)
+    addEdge(city,'b','e',6)
+    addEdge(city,'e','p',0)
+    addEdge(city,'e','b',6)
+    addEdge(city,'e','l',7)
 
-i=110
-while(i>0):
-    paths = find_all_paths(city,paths)
-    i-=1
+# paths= ["a"]
+# penalty = [0]
+
+# def find_all_paths(city,paths):
+#     temp_paths = paths[:]
+#     for i in range(len(temp_paths)):
+#         l = len(temp_paths[i])
+#         node = temp_paths[i][l-1]
+#         flag=0
+#         for neighbour in city[node]:
+#             if neighbour not in temp_paths[i]:
+#                 if(flag==0):
+#                     x = temp_paths[i]
+#                     x+=neighbour
+#                     temp_paths[i]=x
+#                     flag=1
+#                     penalty[i]+=cost[node][city[node].index(neighbour)]
+#                 else:
+#                     x = paths[i]
+#                     x+=neighbour
+#                     temp_paths.append(x)
+#                     penalty.append(cost[node][city[node].index(neighbour)])
+#     paths = temp_paths[:]
+#     return paths
+
+# i=110
+# while(i>0):
+#     paths = find_all_paths(city,paths)
+#     i-=1
 
 def dfs(graph, start, end):
     fringe = [(start, [])]
@@ -112,19 +135,17 @@ cycles=[]
 calc_cost=[]
 penalty1 = []
 
-
-
 for path in dfs(city,node,node):
     if(len(path)>2):
         cycles.append("".join([node]+path))
         calc_cost.append([node]+path)
 
-min = penalty[0]
-j = 0
-for i in range(1,len(penalty)):
-    if(penalty[i]<min):
-        min=penalty[i]
-        j=i
+# min = penalty[0]
+# j = 0
+# for i in range(1,len(penalty)):
+#     if(penalty[i]<min):
+#         min=penalty[i]
+#         j=i
 
 def find_cost(i,list,penalty1):
     penalty1.append(0)
@@ -135,9 +156,9 @@ def find_cost(i,list,penalty1):
 for i in range(len(calc_cost)):
     find_cost(i,calc_cost[i],penalty1)
 
-print('Min cost path is: %d th' % j)
-print(paths[j])
-print(penalty)
+# print('Min cost path is: %d th' % j)
+# print(paths[j])
+# print(penalty)
 
 print(penalty1)
 
