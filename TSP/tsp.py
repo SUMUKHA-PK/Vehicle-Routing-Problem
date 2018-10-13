@@ -26,43 +26,43 @@ if(ch=='n'):
         ch = input('Do you want to enter more edges?: ')
 
 else:
-    # addEdge(city,'d','a',8) 
-    # addEdge(city,'a','b',9)
-    # addEdge(city,'a','d',8) 
-    # addEdge(city,'b','c',0) 
-    # addEdge(city,'b','a',9) 
-    # addEdge(city,'c','d',3) 
-    # addEdge(city,'c','b',0)  
-    # addEdge(city,'d','c',3) 
-    # ###
-    addEdge(city,'a','c',3)
-    addEdge(city,'a','g',1)
-    addEdge(city,'a','d',0)
-    addEdge(city,'c','a',3)
-    addEdge(city,'c','x',5)
-    addEdge(city,'x','c',5)
-    addEdge(city,'x','p',8)
-    addEdge(city,'x','l',5)
-    addEdge(city,'l','x',5)
-    addEdge(city,'l','e',7)
-    addEdge(city,'p','x',8)
-    addEdge(city,'p','f',1)
-    addEdge(city,'p','e',0)
-    addEdge(city,'f','p',1)
-    addEdge(city,'f','d',3)
-    addEdge(city,'f','b',6)
-    addEdge(city,'d','f',3)
-    addEdge(city,'d','a',0)
-    addEdge(city,'d','g',7)
-    addEdge(city,'g','d',7)
-    addEdge(city,'g','a',1)
-    addEdge(city,'g','b',0)
-    addEdge(city,'b','g',0)
-    addEdge(city,'b','f',6)
-    addEdge(city,'b','e',6)
-    addEdge(city,'e','p',0)
-    addEdge(city,'e','b',6)
-    addEdge(city,'e','l',7)
+    addEdge(city,'d','a',8) 
+    addEdge(city,'a','b',9)
+    addEdge(city,'a','d',8) 
+    addEdge(city,'b','c',0) 
+    addEdge(city,'b','a',9) 
+    addEdge(city,'c','d',3) 
+    addEdge(city,'c','b',0)  
+    addEdge(city,'d','c',3) 
+    ###
+    # addEdge(city,'a','c',3)
+    # addEdge(city,'a','g',1)
+    # addEdge(city,'a','d',0)
+    # addEdge(city,'c','a',3)
+    # addEdge(city,'c','x',5)
+    # addEdge(city,'x','c',5)
+    # addEdge(city,'x','p',8)
+    # addEdge(city,'x','l',5)
+    # addEdge(city,'l','x',5)
+    # addEdge(city,'l','e',7)
+    # addEdge(city,'p','x',8)
+    # addEdge(city,'p','f',1)
+    # addEdge(city,'p','e',0)
+    # addEdge(city,'f','p',1)
+    # addEdge(city,'f','d',3)
+    # addEdge(city,'f','b',6)
+    # addEdge(city,'d','f',3)
+    # addEdge(city,'d','a',0)
+    # addEdge(city,'d','g',7)
+    # addEdge(city,'g','d',7)
+    # addEdge(city,'g','a',1)
+    # addEdge(city,'g','b',0)
+    # addEdge(city,'b','g',0)
+    # addEdge(city,'b','f',6)
+    # addEdge(city,'b','e',6)
+    # addEdge(city,'e','p',0)
+    # addEdge(city,'e','b',6)
+    # addEdge(city,'e','l',7)
 
 paths= ["a"]
 penalty = [0]
@@ -107,11 +107,17 @@ def dfs(graph, start, end):
             fringe.append((next_state, path+[next_state]))
             
 node="a" #Start point
+
 cycles=[]
-# cycles = ["".join([node]+path) for path in dfs(city, node, node)]
+calc_cost=[]
+penalty1 = []
+
+
+
 for path in dfs(city,node,node):
     if(len(path)>2):
         cycles.append("".join([node]+path))
+        calc_cost.append([node]+path)
 
 min = penalty[0]
 j = 0
@@ -120,9 +126,27 @@ for i in range(1,len(penalty)):
         min=penalty[i]
         j=i
 
+def find_cost(i,list,penalty1):
+    penalty1.append(0)
+    for j in range(len(list)-1):
+        penalty1[i]+=cost[list[j]][city[list[j]].index(list[j+1])]
+
+
+for i in range(len(calc_cost)):
+    find_cost(i,calc_cost[i],penalty1)
+
 print('Min cost path is: %d th' % j)
 print(paths[j])
-
-print(cycles)
-print(paths)
 print(penalty)
+
+print(penalty1)
+
+min = penalty1[0]
+j = 0
+for i in range(1,len(penalty1)):
+    if(penalty1[i]<min):
+        min=penalty1[i]
+        j=i
+
+print('Min cost path is: %d th' % j)
+print(cycles[j])
