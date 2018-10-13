@@ -1,10 +1,12 @@
 from collections import defaultdict
 
 city = defaultdict(list)
+cost = defaultdict(list)
 
-def addEdge(city,u,v):
+def addEdge(city,u,v,weight):
     city[u].append(v)
-
+    cost[u].append(weight)
+    
 def generateEdges(city):
     edges = [] 
     for node in city:
@@ -20,74 +22,77 @@ if(ch=='n'):
     while(ch!='n'):
         node1 = input('Enter first node: ')
         node2 = input('Enter second node: ')
-        addEdge(city,node1,node2)
+        addEdge(city,node1,node2,wt)
         ch = input('Do you want to enter more edges?: ')
 
 else:
-    # addEdge(city,'a','b')
-    # addEdge(city,'a','d') 
-    # addEdge(city,'b','c') 
-    # addEdge(city,'b','a') 
-    # addEdge(city,'c','d') 
-    # addEdge(city,'c','b')  
-    # addEdge(city,'d','c') 
-    # addEdge(city,'d','a') 
-    ###
-    addEdge(city,'a','c')
-    addEdge(city,'a','g')
-    addEdge(city,'a','d')
-    addEdge(city,'c','a')
-    addEdge(city,'c','x')
-    addEdge(city,'x','c')
-    addEdge(city,'x','p')
-    addEdge(city,'x','l')
-    addEdge(city,'l','x')
-    addEdge(city,'l','e')
-    addEdge(city,'p','x')
-    addEdge(city,'p','f')
-    addEdge(city,'p','e')
-    addEdge(city,'f','p')
-    addEdge(city,'f','d')
-    addEdge(city,'f','b')
-    addEdge(city,'d','f')
-    addEdge(city,'d','a')
-    addEdge(city,'d','g')
-    addEdge(city,'g','d')
-    addEdge(city,'g','a')
-    addEdge(city,'g','b')
-    addEdge(city,'b','g')
-    addEdge(city,'b','f')
-    addEdge(city,'b','e')
-    addEdge(city,'e','p')
-    addEdge(city,'e','d')
-    addEdge(city,'e','f')
+    # addEdge(city,'d','a',8) 
+    # addEdge(city,'a','b',9)
+    # addEdge(city,'a','d',8) 
+    # addEdge(city,'b','c',0) 
+    # addEdge(city,'b','a',9) 
+    # addEdge(city,'c','d',3) 
+    # addEdge(city,'c','b',0)  
+    # addEdge(city,'d','c',3) 
+    # ###
+    addEdge(city,'a','c',3)
+    addEdge(city,'a','g',1)
+    addEdge(city,'a','d',0)
+    addEdge(city,'c','a',3)
+    addEdge(city,'c','x',5)
+    addEdge(city,'x','c',5)
+    addEdge(city,'x','p',8)
+    addEdge(city,'x','l',5)
+    addEdge(city,'l','x',5)
+    addEdge(city,'l','e',7)
+    addEdge(city,'p','x',8)
+    addEdge(city,'p','f',1)
+    addEdge(city,'p','e',0)
+    addEdge(city,'f','p',1)
+    addEdge(city,'f','d',3)
+    addEdge(city,'f','b',6)
+    addEdge(city,'d','f',3)
+    addEdge(city,'d','a',0)
+    addEdge(city,'d','g',7)
+    addEdge(city,'g','d',7)
+    addEdge(city,'g','a',1)
+    addEdge(city,'g','b',0)
+    addEdge(city,'b','g',0)
+    addEdge(city,'b','f',6)
+    addEdge(city,'b','e',6)
+    addEdge(city,'e','p',0)
+    addEdge(city,'e','b',6)
+    addEdge(city,'e','l',7)
 
 paths= ["a"]
+penalty = [0]
 
-# def find_all_paths(city,paths):
-#     temp_paths = paths[:]
-#     for i in range(len(temp_paths)):
-#         l = len(temp_paths[i])
-#         node = temp_paths[i][l-1]
-#         flag=0
-#         for neighbour in city[node]:
-#             if neighbour not in temp_paths[i]:
-#                 if(flag==0):
-#                     x = temp_paths[i]
-#                     x+=neighbour
-#                     temp_paths[i]=x
-#                     flag=1
-#                 else:
-#                     x = paths[i]
-#                     x+=neighbour
-#                     temp_paths.append(x)
-#     paths = temp_paths[:]
-#     return paths
+def find_all_paths(city,paths):
+    temp_paths = paths[:]
+    for i in range(len(temp_paths)):
+        l = len(temp_paths[i])
+        node = temp_paths[i][l-1]
+        flag=0
+        for neighbour in city[node]:
+            if neighbour not in temp_paths[i]:
+                if(flag==0):
+                    x = temp_paths[i]
+                    x+=neighbour
+                    temp_paths[i]=x
+                    flag=1
+                    penalty[i]+=cost[node][city[node].index(neighbour)]
+                else:
+                    x = paths[i]
+                    x+=neighbour
+                    temp_paths.append(x)
+                    penalty.append(cost[node][city[node].index(neighbour)])
+    paths = temp_paths[:]
+    return paths
 
-# i=110
-# while(i>0):
-#     paths = find_all_paths(city,paths)
-#     i-=1
+i=110
+while(i>0):
+    paths = find_all_paths(city,paths)
+    i-=1
 
 def dfs(graph, start, end):
     fringe = [(start, [])]
@@ -105,7 +110,19 @@ node="a" #Start point
 cycles=[]
 # cycles = ["".join([node]+path) for path in dfs(city, node, node)]
 for path in dfs(city,node,node):
-    if(len(path)>3):
+    if(len(path)>2):
         cycles.append("".join([node]+path))
-        
+
+min = penalty[0]
+j = 0
+for i in range(1,len(penalty)):
+    if(penalty[i]<min):
+        min=penalty[i]
+        j=i
+
+print('Min cost path is: %d th' % j)
+print(paths[j])
+
 print(cycles)
+print(paths)
+print(penalty)
