@@ -26,17 +26,29 @@ if(ch=='n'):
         ch = input('Do you want to enter more edges?: ')
 
 else:
-    # addEdge(city,'d','a',8) 
-    # addEdge(city,'a','b',9)
-    # addEdge(city,'a','d',8) 
-    # addEdge(city,'b','c',0) 
-    # addEdge(city,'b','a',9) 
-    # addEdge(city,'c','d',3) 
-    # addEdge(city,'c','b',0)  
-    # addEdge(city,'d','c',3) 
+
+    # a----------9---------b
+    # |                    |
+    # |                    |
+    # |                    |
+    # 8                    0
+    # |                    |
+    # |                    |
+    # |                    |
+    # d----------3---------c
+
+    addEdge(city,'d','a',8) 
+    addEdge(city,'a','b',9)
+    addEdge(city,'a','d',8) 
+    addEdge(city,'b','c',0) 
+    addEdge(city,'b','a',9) 
+    addEdge(city,'c','d',3) 
+    addEdge(city,'c','b',0)  
+    addEdge(city,'d','c',3) 
+   
     ###
 
-    # Graph for beloew
+    # Graph for below
     #     c-----3-----a----------1
     #    /             \          \
     #   5               0          \
@@ -45,12 +57,12 @@ else:
     # |\                 /           / 
     # | 8               3           0
     # |  \             /           /
-    # 5   p-----1-----f-----6-----b
+    # |   p-----1-----f-----6-----b
     # |    \                     / 
     # |     \                   / 
     # |      \                 / 
     # |       \               /
-    # |        0             6
+    # 5        0             6
     # |         \           / 
     # |          \         / 
     # |          \       /
@@ -58,34 +70,34 @@ else:
     # |             \   /
     # l-------7-------e
 
-    addEdge(city,'a','c',3)
-    addEdge(city,'a','g',1)
-    addEdge(city,'a','d',0)
-    addEdge(city,'c','a',3)
-    addEdge(city,'c','x',5)
-    addEdge(city,'x','c',5)
-    addEdge(city,'x','p',8)
-    addEdge(city,'x','l',5)
-    addEdge(city,'l','x',5)
-    addEdge(city,'l','e',7)
-    addEdge(city,'p','x',8)
-    addEdge(city,'p','f',1)
-    addEdge(city,'p','e',0)
-    addEdge(city,'f','p',1)
-    addEdge(city,'f','d',3)
-    addEdge(city,'f','b',6)
-    addEdge(city,'d','f',3)
-    addEdge(city,'d','a',0)
-    addEdge(city,'d','g',7)
-    addEdge(city,'g','d',7)
-    addEdge(city,'g','a',1)
-    addEdge(city,'g','b',0)
-    addEdge(city,'b','g',0)
-    addEdge(city,'b','f',6)
-    addEdge(city,'b','e',6)
-    addEdge(city,'e','p',0)
-    addEdge(city,'e','b',6)
-    addEdge(city,'e','l',7)
+    # addEdge(city,'a','c',3)
+    # addEdge(city,'a','g',1)
+    # addEdge(city,'a','d',0)
+    # addEdge(city,'c','a',3)
+    # addEdge(city,'c','x',5)
+    # addEdge(city,'x','c',5)
+    # addEdge(city,'x','p',8)
+    # addEdge(city,'x','l',5)
+    # addEdge(city,'l','x',5)
+    # addEdge(city,'l','e',7)
+    # addEdge(city,'p','x',8)
+    # addEdge(city,'p','f',1)
+    # addEdge(city,'p','e',0)
+    # addEdge(city,'f','p',1)
+    # addEdge(city,'f','d',3)
+    # addEdge(city,'f','b',6)
+    # addEdge(city,'d','f',3)
+    # addEdge(city,'d','a',0)
+    # addEdge(city,'d','g',7)
+    # addEdge(city,'g','d',7)
+    # addEdge(city,'g','a',1)
+    # addEdge(city,'g','b',0)
+    # addEdge(city,'b','g',0)
+    # addEdge(city,'b','f',6)
+    # addEdge(city,'b','e',6)
+    # addEdge(city,'e','p',0)
+    # addEdge(city,'e','b',6)
+    # addEdge(city,'e','l',7)
 
 # paths= ["a"]
 # penalty = [0]
@@ -160,14 +172,19 @@ for i in range(len(calc_cost)):
 # print(paths[j])
 # print(penalty)
 
-print(penalty1)
-
 min = penalty1[0]
-j = 0
 for i in range(1,len(penalty1)):
-    if(penalty1[i]<min):
+    if(penalty1[i]<=min):
         min=penalty1[i]
         j=i
 
-print('Min cost path is: %d th' % j)
-print(cycles[j])
+
+shortest = [] 
+shortest.append(cycles[j])
+
+for i in range(len(penalty1)):
+    if(penalty1[i]==min)&(i!=j):
+        shortest.append(cycles[i])
+
+print('Min cost path/s is/are: -->',end =" ")
+print(shortest)
