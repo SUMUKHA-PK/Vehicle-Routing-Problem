@@ -1,4 +1,7 @@
 from collections import defaultdict
+import time
+
+start = time.time()
 
 city = defaultdict(list)
 cost = defaultdict(list)
@@ -188,3 +191,7 @@ for i in range(len(penalty1)):
 
 print('Min cost path/s is/are: -->',end =" ")
 print(shortest)
+
+end = time.time()
+
+print('Time taken to run serial TSP is: %fs' % (end-start))
