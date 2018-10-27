@@ -48,14 +48,14 @@ else:
     # |                    |
     # d----------3---------c
 
-    addEdge(city,'d','a',8) 
-    addEdge(city,'a','b',9)
-    addEdge(city,'a','d',8) 
-    addEdge(city,'b','c',0) 
-    addEdge(city,'b','a',9) 
-    addEdge(city,'c','d',3) 
-    addEdge(city,'c','b',0)  
-    addEdge(city,'d','c',3) 
+    # addEdge(city,'d','a',8) 
+    # addEdge(city,'a','b',9)
+    # addEdge(city,'a','d',8) 
+    # addEdge(city,'b','c',0) 
+    # addEdge(city,'b','a',9) 
+    # addEdge(city,'c','d',3) 
+    # addEdge(city,'c','b',0)  
+    # addEdge(city,'d','c',3) 
    
     ###
 
@@ -81,34 +81,34 @@ else:
     # |             \   /
     # l-------7-------e
 
-    # addEdge(city,'a','c',3)
-    # addEdge(city,'a','g',1)
-    # addEdge(city,'a','d',0)
-    # addEdge(city,'c','a',3)
-    # addEdge(city,'c','x',5)
-    # addEdge(city,'x','c',5)
-    # addEdge(city,'x','p',8)
-    # addEdge(city,'x','l',5)
-    # addEdge(city,'l','x',5)
-    # addEdge(city,'l','e',7)
-    # addEdge(city,'p','x',8)
-    # addEdge(city,'p','f',1)
-    # addEdge(city,'p','e',0)
-    # addEdge(city,'f','p',1)
-    # addEdge(city,'f','d',3)
-    # addEdge(city,'f','b',6)
-    # addEdge(city,'d','f',3)
-    # addEdge(city,'d','a',0)
-    # addEdge(city,'d','g',7)
-    # addEdge(city,'g','d',7)
-    # addEdge(city,'g','a',1)
-    # addEdge(city,'g','b',0)
-    # addEdge(city,'b','g',0)
-    # addEdge(city,'b','f',6)
-    # addEdge(city,'b','e',6)
-    # addEdge(city,'e','p',0)
-    # addEdge(city,'e','b',6)
-    # addEdge(city,'e','l',7)
+    addEdge(city,'a','c',3)
+    addEdge(city,'a','g',1)
+    addEdge(city,'a','d',0)
+    addEdge(city,'c','a',3)
+    addEdge(city,'c','x',5)
+    addEdge(city,'x','c',5)
+    addEdge(city,'x','p',8)
+    addEdge(city,'x','l',5)
+    addEdge(city,'l','x',5)
+    addEdge(city,'l','e',7)
+    addEdge(city,'p','x',8)
+    addEdge(city,'p','f',1)
+    addEdge(city,'p','e',0)
+    addEdge(city,'f','p',1)
+    addEdge(city,'f','d',3)
+    addEdge(city,'f','b',6)
+    addEdge(city,'d','f',3)
+    addEdge(city,'d','a',0)
+    addEdge(city,'d','g',7)
+    addEdge(city,'g','d',7)
+    addEdge(city,'g','a',1)
+    addEdge(city,'g','b',0)
+    addEdge(city,'b','g',0)
+    addEdge(city,'b','f',6)
+    addEdge(city,'b','e',6)
+    addEdge(city,'e','p',0)
+    addEdge(city,'e','b',6)
+    addEdge(city,'e','l',7)
 
 vertex_set = set()
 vertex_list = list(city.keys())
@@ -146,25 +146,32 @@ def dijkstra(src):
         sptSet.append(False)
     
     dist[src]=0
-
+    
     for i in range(len(city)):
         u = minDist(dist,sptSet)
-        sptSet[i]=True
-        for j in range(len(city)):
+        sptSet[u]=True
+        for j in range(0,len(city)):
             word = True
             try:
                 city[list(city.keys())[u]][j]
-            except:
+                print('crre')
+            except Exception as e:
+                print(e)
                 word = False
-            if((~sptSet[j])&(word)&(dist[u]!=sys.maxsize)):
+            if((sptSet[j]==False)&(word)&(dist[u]!=sys.maxsize)):
                 if((dist[u] + weights[list(city.keys())[u]][j])<dist[j]):
-                    print(dist[u])
-                    print(dist[j])
-                    print(weights[list(city.keys())[u]][j])
                     dist[j] = dist[u] + weights[list(city.keys())[u]][j]
-                    print(dist[j])
+            word=True
 
     print(dist)
-    print(sptSet)
-    print(city.keys())
+
 dijkstra(0)
+print(city)
+print(weights)
+
+# for i in range(len(city)):
+#     for j in range(len(city)):
+#         try:
+#             print(city[list(city.keys())[i]][j])
+#         except Exception as e:
+#             print(e)
