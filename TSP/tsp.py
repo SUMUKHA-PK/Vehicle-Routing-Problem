@@ -3,9 +3,6 @@ import time
 
 start = time.time()
 
-city = defaultdict(list)
-cost = defaultdict(list)
-
 def addEdge(city,u,v,weight):
     city[u].append(v)
     cost[u].append(weight)
@@ -17,6 +14,27 @@ def generateEdges(city):
             edges.append((node,neighbour))
     
     return edges
+
+def dfs(graph, start, end):
+    fringe = [(start, [])]
+    while fringe:
+        state, path = fringe.pop()
+        if path and state == end:
+            yield path
+            continue
+        for next_state in graph[state]:
+            if next_state in path:
+                continue
+            fringe.append((next_state, path+[next_state]))
+
+def find_cost(i,list,penalty1):
+    penalty1.append(0)
+    for j in range(len(list)-1):
+        penalty1[i]+=cost[list[j]][city[list[j]].index(list[j+1])]
+
+city = defaultdict(list)
+cost = defaultdict(list)
+
 
 ch = input('Do you want to use pre-generated city?: ')
 
@@ -132,17 +150,7 @@ else:
 #     paths = find_all_paths(city,paths)
 #     i-=1
 
-def dfs(graph, start, end):
-    fringe = [(start, [])]
-    while fringe:
-        state, path = fringe.pop()
-        if path and state == end:
-            yield path
-            continue
-        for next_state in graph[state]:
-            if next_state in path:
-                continue
-            fringe.append((next_state, path+[next_state]))
+
             
 node="a" #Start point
 
@@ -161,11 +169,6 @@ for path in dfs(city,node,node):
 #     if(penalty[i]<min):
 #         min=penalty[i]
 #         j=i
-
-def find_cost(i,list,penalty1):
-    penalty1.append(0)
-    for j in range(len(list)-1):
-        penalty1[i]+=cost[list[j]][city[list[j]].index(list[j+1])]
 
 
 for i in range(len(calc_cost)):

@@ -2,15 +2,16 @@ from collections import defaultdict
 import time
 import numpy as np
 import itertools
+import sys
 
 start = time.time()
 
 city = defaultdict(list)
-cost = defaultdict(list)
+weights = defaultdict(list)
 
 def addEdge(city,u,v,weight):
     city[u].append(v)
-    cost[u].append(weight)
+    weights[u].append(weight)
     
 def generateEdges(city):
     edges = [] 
@@ -19,6 +20,11 @@ def generateEdges(city):
             edges.append((node,neighbour))
     
     return edges
+
+def findsubsets(S,m):
+    listing = [list(x) for x in itertools.combinations(S, m)]
+    return listing
+
 
 ch = input('Do you want to use pre-generated city?: ')
 
@@ -104,22 +110,61 @@ else:
     addEdge(city,'e','b',6)
     addEdge(city,'e','l',7)
 
-cost = np.zeros(len(city),dtype=int)
-
-
-def findsubsets(S,m):
-    return frozenset(itertools.combinations(S, m))
-
 vertex_set = set()
 vertex_list = list(city.keys())
 
 for i in range(len(city)):
     vertex_set.add(vertex_list[i])
 
-super_vertex_set = set()
+super_vertex_set = defaultdict(list)
 
-for i in range(len(city)):
-    super_vertex_set.add( findsubsets(vertex_set,i) )
+for i in range(len(city)+1):
+    super_vertex_set[i].append(findsubsets(vertex_set,i))
+
+for i in range(len(city)+1):
+    print('Set of size %d --> ' % i ,end="")
+    print(super_vertex_set[i])
+
+#Super set vertex is a list of a list of a list so addressing must be done as supersetvertex[i][0][j] instead of supersetvertex[i][j]
 
 
-print(super_vertex_set)
+def minDist(dist,sptSet):
+    m = sys.maxsize
+    min_index = -1
+    for i in range(len(city)):
+        if((sptSet[i]==False)&(dist[i]<=m)):
+            m = dist[i]
+            min_index = i
+    return min_index
+
+#Returns a list with distances from src to all other nodes
+def dijkstra(src):
+    sptSet = []
+    dist = []
+    for i in range(len(city)):
+        dist.append(sys.maxsize)
+        sptSet.append(False)
+    
+    dist[src]=0
+
+    for i in range(len(city)):
+        u = minDist(dist,sptSet)
+        sptSet[i]=True
+        for j in range(len(city)):
+            word = True
+            try:
+                city[list(city.keys())[u]][j]
+            except:
+                word = False
+            if((~sptSet[j])&(word)&(dist[u]!=sys.maxsize)):
+                if((dist[u] + weights[list(city.keys())[u]][j])<dist[j]):
+                    print(dist[u])
+                    print(dist[j])
+                    print(weights[list(city.keys())[u]][j])
+                    dist[j] = dist[u] + weights[list(city.keys())[u]][j]
+                    print(dist[j])
+
+    print(dist)
+    print(sptSet)
+    print(city.keys())
+dijkstra(0)
