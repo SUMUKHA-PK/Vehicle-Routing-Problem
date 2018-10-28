@@ -154,14 +154,22 @@ def dijkstra(src):
             word = True
             try:
                 city[list(city.keys())[u]][j]
-                print('crre')
-            except Exception as e:
-                print(e)
-                word = False
-            if((sptSet[j]==False)&(word)&(dist[u]!=sys.maxsize)):
-                if((dist[u] + weights[list(city.keys())[u]][j])<dist[j]):
-                    dist[j] = dist[u] + weights[list(city.keys())[u]][j]
-            word=True
+                try:
+                    list(city.keys()).index(city[list(city.keys())[u]][j])
+                    print(list(city.keys())[u],end="-> ")
+                    print(city[list(city.keys())[u]][j])
+                    print('crre')
+                except Exception as e:
+                    print(e)
+                    word = False
+            except:
+                word=False
+            print(word)
+            #print(sptSet[list(city.keys()).index(city[list(city.keys())[u]][j])])
+            if(word):
+                print(dist[list(city.keys()).index(city[list(city.keys())[u]][j])])
+                if((sptSet[list(city.keys()).index(city[list(city.keys())[u]][j])]==False)&(dist[list(city.keys()).index(city[list(city.keys())[u]][j])]!=sys.maxsize)&((dist[list(city.keys()).index(city[list(city.keys())[u]][j])] + weights[list(city.keys())[u]][j])<dist[j])):
+                    dist[j] = dist[list(city.keys()).index(city[list(city.keys())[u]][j])] + weights[list(city.keys())[u]][j]
 
     print(dist)
 
