@@ -121,9 +121,9 @@ super_vertex_set = defaultdict(list)
 for i in range(len(city)+1):
     super_vertex_set[i].append(findsubsets(vertex_set,i))
 
-for i in range(len(city)+1):
-    print('Set of size %d --> ' % i ,end="")
-    print(super_vertex_set[i])
+# for i in range(len(city)+1):
+#     print('Set of size %d --> ' % i ,end="")
+#     print(super_vertex_set[i])
 
 #Super set vertex is a list of a list of a list so addressing must be done as supersetvertex[i][0][j] instead of supersetvertex[i][j]
 
@@ -153,33 +153,15 @@ def dijkstra(src):
         for j in range(0,len(city)):
             word = True
             try:
-                city[list(city.keys())[u]][j]
-                try:
-                    list(city.keys()).index(city[list(city.keys())[u]][j])
-                    print(list(city.keys())[u],end="-> ")
-                    print(city[list(city.keys())[u]][j])
-                    print('crre')
-                except Exception as e:
-                    print(e)
-                    word = False
+                weights[list(city.keys())[u]][city[list(city.keys())[u]].index(list(city.keys())[j])]
             except:
                 word=False
-            print(word)
-            #print(sptSet[list(city.keys()).index(city[list(city.keys())[u]][j])])
             if(word):
-                print(dist[list(city.keys()).index(city[list(city.keys())[u]][j])])
-                if((sptSet[list(city.keys()).index(city[list(city.keys())[u]][j])]==False)&(dist[list(city.keys()).index(city[list(city.keys())[u]][j])]!=sys.maxsize)&((dist[list(city.keys()).index(city[list(city.keys())[u]][j])] + weights[list(city.keys())[u]][j])<dist[j])):
-                    dist[j] = dist[list(city.keys()).index(city[list(city.keys())[u]][j])] + weights[list(city.keys())[u]][j]
-
+                if((sptSet[j]==False)&(dist[u]!=sys.maxsize)&((dist[u] + weights[list(city.keys())[u]][city[list(city.keys())[u]].index(list(city.keys())[j])])<dist[j])):
+                    dist[j] = dist[u] + weights[list(city.keys())[u]][city[list(city.keys())[u]].index(list(city.keys())[j])]
     print(dist)
 
 dijkstra(0)
 print(city)
 print(weights)
 
-# for i in range(len(city)):
-#     for j in range(len(city)):
-#         try:
-#             print(city[list(city.keys())[i]][j])
-#         except Exception as e:
-#             print(e)
