@@ -161,7 +161,16 @@ def dijkstra(src):
                     dist[j] = dist[u] + weights[list(city.keys())[u]][city[list(city.keys())[u]].index(list(city.keys())[j])]
     print(dist)
 
-dijkstra(0)
-print(city)
-print(weights)
+cost=[[]]
+
+for i in range(len(city)):
+    cost.append(dijkstra(i))
+
+for i in range(len(city)):
+    print("Single source paths from ",end="")
+    print(list(city.keys())[i],end=" is --> ")
+    print(cost[i])
+# print(city.keys())
+# print(city)
+# print(weights)
 
