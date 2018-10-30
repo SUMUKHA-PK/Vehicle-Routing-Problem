@@ -29,9 +29,14 @@ def findsubsets(S,m):
 ch = input('Do you want to use pre-generated city?: ')
 
 if(ch=='n'):
+    flag_source = 0
     ch='y'
     while(ch!='n'):
         node1 = input('Enter first node: ')
+        if(flag_source==0):
+            print("First node entered will be set as source node: ")
+            source_node = node1
+            flag_source = 1
         node2 = input('Enter second node: ')
         addEdge(city,node1,node2,wt)
         ch = input('Do you want to enter more edges?: ')
@@ -56,6 +61,7 @@ else:
     # addEdge(city,'c','d',3) 
     # addEdge(city,'c','b',0)  
     # addEdge(city,'d','c',3) 
+    # source_node = 'a'
    
     ###
 
@@ -109,6 +115,7 @@ else:
     addEdge(city,'e','p',0)
     addEdge(city,'e','b',6)
     addEdge(city,'e','l',7)
+    source_node = 'a'
 
 vertex_set = set()
 vertex_list = list(city.keys())
@@ -123,9 +130,24 @@ super_vertex_set = defaultdict(list)
 for i in range(L+1):
     super_vertex_set[i].append(findsubsets(vertex_set,i))
 
-for i in range(L+1):
-    print('Set of size %d --> ' % i ,end="")
-    print(super_vertex_set[i])
+#Remove all sets that do not have the source node in them
+for i in range(2,L+1):
+    temp = super_vertex_set[i][0]
+    len_temp = len(temp)
+    temp2 = []
+    for j in range(len(temp)):
+        temp1 = temp[j]
+        if source_node not in temp1:
+            temp2.append(j)  
+    temp3 = []
+    for j in range(len(temp)):
+        if j not in temp2:
+            temp3.append(temp[j])
+    super_vertex_set[i][0]=temp3
+
+# for i in range(L+1):
+#     print('Set of size %d --> ' % i ,end="")
+#     print(super_vertex_set[i])
 
 # Super set vertex is a list of a list of a list so addressing must be done as supersetvertex[i][0][j] instead of supersetvertex[i][j], i is length based division of the sets
 
@@ -182,7 +204,7 @@ cost = np.zeros(shape=(L+1,L),dtype=int) #Matrix for Length of paths vs each nod
 for i in range(L):
     cost[2][i] = distances[0][i]
 
-for i in range(3,L+1):
-    for j in range(L):
+# for i in range(3,L+1):
+#     for j in range(L):
         
-print(cost)
+# print(cost)
