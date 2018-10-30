@@ -203,8 +203,16 @@ cost = np.zeros(shape=(L+1,L),dtype=int) #Matrix for Length of paths vs each nod
 
 for i in range(L):
     cost[2][i] = distances[0][i]
+    
+def find_index_j():
 
-# for i in range(3,L+1):
-#     for j in range(L):
-        
-# print(cost)
+for i in range(3,L+1): # Addressing all set sizes
+    for j in range(L): # Addressing each node to which the path exists
+        min_val = sys.maxsize
+        for k in range(L): # Addressing each set in that size range
+            temp = c[find_index_j()][find_index_k()] + distances[k][j])
+            if(min_val>temp):
+                min_val = temp
+    cost[i][j] = min_val
+
+print(cost)
