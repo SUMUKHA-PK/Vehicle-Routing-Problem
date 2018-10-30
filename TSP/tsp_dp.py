@@ -113,25 +113,27 @@ else:
 vertex_set = set()
 vertex_list = list(city.keys())
 
-for i in range(len(city)):
+L = len(city)
+
+for i in range(L):
     vertex_set.add(vertex_list[i])
 
 super_vertex_set = defaultdict(list)
 
-for i in range(len(city)+1):
+for i in range(L+1):
     super_vertex_set[i].append(findsubsets(vertex_set,i))
 
-# for i in range(len(city)+1):
-#     print('Set of size %d --> ' % i ,end="")
-#     print(super_vertex_set[i])
+for i in range(L+1):
+    print('Set of size %d --> ' % i ,end="")
+    print(super_vertex_set[i])
 
-#Super set vertex is a list of a list of a list so addressing must be done as supersetvertex[i][0][j] instead of supersetvertex[i][j]
+# Super set vertex is a list of a list of a list so addressing must be done as supersetvertex[i][0][j] instead of supersetvertex[i][j], i is length based division of the sets
 
 
 def minDist(dist,sptSet):
     m = sys.maxsize
     min_index = -1
-    for i in range(len(city)):
+    for i in range(L):
         if((sptSet[i]==False)&(dist[i]<=m)):
             m = dist[i]
             min_index = i
@@ -141,16 +143,16 @@ def minDist(dist,sptSet):
 def dijkstra(src):
     sptSet = []
     dist = []
-    for i in range(len(city)):
+    for i in range(L):
         dist.append(sys.maxsize)
         sptSet.append(False)
     
     dist[src]=0
     
-    for i in range(len(city)):
+    for i in range(L):
         u = minDist(dist,sptSet)
         sptSet[u]=True
-        for j in range(0,len(city)):
+        for j in range(0,L):
             word = True
             try:
                 weights[list(city.keys())[u]][city[list(city.keys())[u]].index(list(city.keys())[j])]
@@ -159,18 +161,28 @@ def dijkstra(src):
             if(word):
                 if((sptSet[j]==False)&(dist[u]!=sys.maxsize)&((dist[u] + weights[list(city.keys())[u]][city[list(city.keys())[u]].index(list(city.keys())[j])])<dist[j])):
                     dist[j] = dist[u] + weights[list(city.keys())[u]][city[list(city.keys())[u]].index(list(city.keys())[j])]
-    print(dist)
+    return dist
 
-cost=[[]]
+distances = np.zeros(shape=(L,L),dtype=int)
 
-for i in range(len(city)):
-    cost.append(dijkstra(i))
-
-for i in range(len(city)):
+for i in range(L):
+    dist = dijkstra(i)
+    for j in range(L):
+        distances[i][j]=dist[j]
+        
+for i in range(L):
     print("Single source paths from ",end="")
     print(list(city.keys())[i],end=" is --> ")
-    print(cost[i])
-# print(city.keys())
-# print(city)
-# print(weights)
+    print(distances[i])
 
+# Dp implementation of the Algorithm begins here
+
+cost = np.zeros(shape=(L+1,L),dtype=int) #Matrix for Length of paths vs each node
+
+for i in range(L):
+    cost[2][i] = distances[0][i]
+
+for i in range(3,L+1):
+    for j in range(L):
+        
+print(cost)
