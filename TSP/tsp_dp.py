@@ -148,6 +148,7 @@ for i in range(2,L+1):
 # for i in range(L+1):
 #     print('Set of size %d --> ' % i ,end="")
 #     print(super_vertex_set[i])
+#     print(len(super_vertex_set[i][0]))
 
 # Super set vertex is a list of a list of a list so addressing must be done as supersetvertex[i][0][j] instead of supersetvertex[i][j], i is length based division of the sets
 
@@ -202,17 +203,36 @@ for i in range(L):
 cost = np.zeros(shape=(L+1,L),dtype=int) #Matrix for Length of paths vs each node
 
 for i in range(L):
-    cost[2][i] = distances[0][i]
-    
-def find_index_j():
+    cost[2][i] = distances[list(city.keys()).index(source_node)][i]
+
+def find_index_j(i,j,jj):
+    temp = super_vertex_set[i][0][j][:]
+   # print(temp)
+    temp.remove(list(city.keys())[jj])
+   # print(temp)
+    for k in super_vertex_set[i-1][0]:
+        if(k==temp):
+            return super_vertex_set[i-1][0].index(k)
 
 for i in range(3,L+1): # Addressing all set sizes
-    for j in range(L): # Addressing each node to which the path exists
+    print(i)
+    for jj in range(1,L): # Addressing each node to which a path exists
         min_val = sys.maxsize
-        for k in range(L): # Addressing each set in that size range
-            temp = c[find_index_j()][find_index_k()] + distances[k][j])
-            if(min_val>temp):
-                min_val = temp
-    cost[i][j] = min_val
+        for j in range(len(super_vertex_set[i][0])): # Addressing all sets in the size range
+            if list(city.keys())[jj] in super_vertex_set[i][0][j]:  # node j musnt exist in the group before and everything else must be same
+                index_j = find_index_j(i,j,jj)
+                for k in range(len(super_vertex_set[i-1][0][index_j])): # Addressing each set which is one node less than 'j' in that size range to find min cost
+                    if(super_vertex_set[i-1][0][index_j][k]!= list(city.keys())[jj]):
+                        temp = cost[i-1][list(city.keys()).index(super_vertex_set[i-1][0][index_j][k])] + distances[jj][list(city.keys()).index(super_vertex_set[i-1][0][index_j][k])]
+                        if(min_val>temp):
+                            min_val = temp
+                            print('yay',end=" ")
+            else:
+                continue
+    print(cost[i][jj])
+    cost[i][jj] = min_val
 
 print(cost)
+
+
+print(super_vertex_set[5][0][3])
