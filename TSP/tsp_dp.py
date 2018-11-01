@@ -215,24 +215,18 @@ def find_index_j(i,j,jj):
             return super_vertex_set[i-1][0].index(k)
 
 for i in range(3,L+1): # Addressing all set sizes
-    print(i)
     for jj in range(1,L): # Addressing each node to which a path exists
         min_val = sys.maxsize
         for j in range(len(super_vertex_set[i][0])): # Addressing all sets in the size range
             if list(city.keys())[jj] in super_vertex_set[i][0][j]:  # node j musnt exist in the group before and everything else must be same
                 index_j = find_index_j(i,j,jj)
                 for k in range(len(super_vertex_set[i-1][0][index_j])): # Addressing each set which is one node less than 'j' in that size range to find min cost
-                    if(super_vertex_set[i-1][0][index_j][k]!= list(city.keys())[jj]):
-                        temp = cost[i-1][list(city.keys()).index(super_vertex_set[i-1][0][index_j][k])] + distances[jj][list(city.keys()).index(super_vertex_set[i-1][0][index_j][k])]
+                    if(super_vertex_set[i-1][0][index_j][k]!= source_node):
+                        temp = cost[i-1][list(city.keys()).index(super_vertex_set[i-1][0][index_j][k])] + distances[list(city.keys()).index(super_vertex_set[i-1][0][index_j][k])][jj]
                         if(min_val>temp):
                             min_val = temp
-                            print('yay',end=" ")
             else:
                 continue
-    print(cost[i][jj])
-    cost[i][jj] = min_val
+        cost[i][jj] = min_val
 
 print(cost)
-
-
-print(super_vertex_set[5][0][3])
