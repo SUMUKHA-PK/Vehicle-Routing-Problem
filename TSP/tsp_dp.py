@@ -3,6 +3,7 @@ import time
 import numpy as np
 import itertools
 import sys
+import math
 
 start = time.time()
 
@@ -25,6 +26,15 @@ def findsubsets(S,m):
     listing = [list(x) for x in itertools.combinations(S, m)]
     return listing
 
+def calc_dist(a,b,c,d):
+    xd = int(a)-int(c)
+    yd = int(b)-int(d)
+    r = math.sqrt(((xd*xd)+(yd*yd))/10.0)
+    return math.ceil(r)
+
+def parse(a):
+    x = a.split(' ')
+    return x[0],x[1],x[2]
 
 ch = input('Do you want to use pre-generated city?: ')
 
@@ -43,79 +53,114 @@ if(ch=='n'):
 
 else:
 
-    # a----------9---------b
-    # |                    |
-    # |                    |
-    # |                    |
-    # 8                    0
-    # |                    |
-    # |                    |
-    # |                    |
-    # d----------3---------c
+    # # a----------9---------b
+    # # |                    |
+    # # |                    |
+    # # |                    |
+    # # 8                    0
+    # # |                    |
+    # # |                    |
+    # # |                    |
+    # # d----------3---------c
 
-    # addEdge(city,'d','a',8) 
-    # addEdge(city,'a','b',9)
-    # addEdge(city,'a','d',8) 
-    # addEdge(city,'b','c',0) 
-    # addEdge(city,'b','a',9) 
-    # addEdge(city,'c','d',3) 
-    # addEdge(city,'c','b',0)  
-    # addEdge(city,'d','c',3) 
-    # source_node = 'a'
+    # # addEdge(city,'d','a',8) 
+    # # addEdge(city,'a','b',9)
+    # # addEdge(city,'a','d',8) 
+    # # addEdge(city,'b','c',0) 
+    # # addEdge(city,'b','a',9) 
+    # # addEdge(city,'c','d',3) 
+    # # addEdge(city,'c','b',0)  
+    # # addEdge(city,'d','c',3) 
+    # # source_node = 'a'
    
-    ###
+    # ###
 
-    # Graph for below
-    #     c-----3-----a----------1
-    #    /             \          \
-    #   5               0          \
-    #  /                 \          \
-    # x                   d-----7----g
-    # |\                 /           / 
-    # | 8               3           0
-    # |  \             /           /
-    # |   p-----1-----f-----6-----b
-    # |    \                     / 
-    # |     \                   / 
-    # |      \                 / 
-    # |       \               /
-    # 5        0             6
-    # |         \           / 
-    # |          \         / 
-    # |           \       /
-    # |            \     /
-    # |             \   /
-    # l-------7-------e
+    # # Graph for below
+    # #     c-----3-----a----------1
+    # #    /             \          \
+    # #   5               0          \
+    # #  /                 \          \
+    # # x                   d-----7----g
+    # # |\                 /           / 
+    # # | 8               3           0
+    # # |  \             /           /
+    # # |   p-----1-----f-----6-----b
+    # # |    \                     / 
+    # # |     \                   / 
+    # # |      \                 / 
+    # # |       \               /
+    # # 5        0             6
+    # # |         \           / 
+    # # |          \         / 
+    # # |           \       /
+    # # |            \     /
+    # # |             \   /
+    # # l-------7-------e
 
-    addEdge(city,'a','c',3)
-    addEdge(city,'a','g',1)
-    addEdge(city,'a','d',0)
-    addEdge(city,'c','a',3)
-    addEdge(city,'c','x',5)
-    addEdge(city,'x','c',5)
-    addEdge(city,'x','p',8)
-    addEdge(city,'x','l',5)
-    addEdge(city,'l','x',5)
-    addEdge(city,'l','e',7)
-    addEdge(city,'p','x',8)
-    addEdge(city,'p','f',1)
-    addEdge(city,'p','e',0)
-    addEdge(city,'f','p',1)
-    addEdge(city,'f','d',3)
-    addEdge(city,'f','b',6)
-    addEdge(city,'d','f',3)
-    addEdge(city,'d','a',0)
-    addEdge(city,'d','g',7)
-    addEdge(city,'g','d',7)
-    addEdge(city,'g','a',1)
-    addEdge(city,'g','b',0)
-    addEdge(city,'b','g',0)
-    addEdge(city,'b','f',6)
-    addEdge(city,'b','e',6)
-    addEdge(city,'e','p',0)
-    addEdge(city,'e','b',6)
-    addEdge(city,'e','l',7)
-    source_node = 'a'
+    # addEdge(city,'a','c',3)
+    # addEdge(city,'a','g',1)
+    # addEdge(city,'a','d',0)
+    # addEdge(city,'c','a',3)
+    # addEdge(city,'c','x',5)
+    # addEdge(city,'x','c',5)
+    # addEdge(city,'x','p',8)
+    # addEdge(city,'x','l',5)
+    # addEdge(city,'l','x',5)
+    # addEdge(city,'l','e',7)
+    # addEdge(city,'p','x',8)
+    # addEdge(city,'p','f',1)
+    # addEdge(city,'p','e',0)
+    # addEdge(city,'f','p',1)
+    # addEdge(city,'f','d',3)
+    # addEdge(city,'f','b',6)
+    # addEdge(city,'d','f',3)
+    # addEdge(city,'d','a',0)
+    # addEdge(city,'d','g',7)
+    # addEdge(city,'g','d',7)
+    # addEdge(city,'g','a',1)
+    # addEdge(city,'g','b',0)
+    # addEdge(city,'b','g',0)
+    # addEdge(city,'b','f',6)
+    # addEdge(city,'b','e',6)
+    # addEdge(city,'e','p',0)
+    # addEdge(city,'e','b',6)
+    # addEdge(city,'e','l',7)
+    # source_node = 'a'
+
+    tsp_dataset_path = str(sys.argv[1])
+    proj_params = open(tsp_dataset_path)
+    lines = proj_params.readlines()
+
+    node_cord_list = []
+    saved_all_nodes = 0
+    dimension = 0
+    count_nodes=0
+
+    for line in lines:
+        if "DIMENSION :" in line:
+            d1 = line.strip("DIMENSION :")
+            dim =  d1.strip('\n')
+            dimension = int(dim)
+        if "NODE_COORD_SECTION" in line :
+            count_nodes = 1
+            accessed = 'yes'
+            node_cord_list.append('0 0 0')
+        if((saved_all_nodes == 0)&(count_nodes > 0)):
+            if 'NODE_COORD_SECTION' not in line:
+                if(count_nodes <= dimension) :
+                    line = line.strip('\n')
+                    node_cord_list.append(line)
+                    count_nodes = count_nodes + 1
+                else:   
+                    saved_all_nodes = 1
+
+    for i in range(len(node_cord_list)):
+        a,b,c = parse(node_cord_list[i])
+        for j in range(len(node_cord_list)):
+            d,e,f = parse(node_cord_list[j])
+            dis = calc_dist(b,c,e,f)
+            addEdge(city,a,d,dis)
+
 
 vertex_set = set()
 vertex_list = list(city.keys())
